@@ -1,0 +1,9 @@
+{
+  "id": "nvim-latest",
+  "version": "0.0.1",
+  "description": "Installs the latest nvim binaries to /opt/vim",
+  "options": { },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

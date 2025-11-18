@@ -1,0 +1,10 @@
+{
+  "id": "tmux",
+  "version": "0.0.1",
+  "descripton": "Installs tmux using the system package manager",
+  "options": { },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
+
