@@ -1,4 +1,5 @@
 {
+  "name": "tmux",
   "id": "tmux",
   "version": "0.0.1",
   "descripton": "Installs tmux using the system package manager",

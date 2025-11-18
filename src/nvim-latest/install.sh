@@ -1,5 +1,23 @@
-#!/usr/bin/bash
-apt-get update && apt-get install -y wget
+#!/usr/bin/env bash
+
+set -e
+
+# ubuntu, debian, etc
+if command -v apt-get >/dev/null 2>&1 ; then
+  apt-get update -y
+  apt-get install -y wget
+fi
+
+# rhel, fedora, etc
+if command -v dnf >/dev/null 2>&1 ; then #  dnf check-update
+#  dnf -y update --setopt=tsflags=nodocs --nogpgcheck
+  dnf install wget -y --setopt=tsflags=nodocs --nogpgcheck
+fi
+
+# arch btw
+if command -v pacman >/dev/null 2>&1 ; then
+  pacman -Syu --noconfirm wget
+fi
 
 PLATFORM_ARCH=$(uname -m)
 
