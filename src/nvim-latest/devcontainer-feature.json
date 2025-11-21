@@ -3,7 +3,17 @@
   "id": "nvim-latest",
   "version": "0.0.1",
   "description": "Installs the latest nvim binaries to /opt/vim",
-  "options": { },
+  "options": {
+     "plugins": {
+      "type": "string",
+      "description": "A comma separated list of neovim plugin urls, to be installed as the contianerUser. This feature will NOT installed system dependencies of the plugins. For example, the base-language-server LSP requires nodejs. You will need to install plugin system depedendencies prior to running this feature. This feature does not install any by default.",
+      "proposals": [
+        "https://github.com/nvim-treesitter/nvim-treesitter,https://github.com/nvim-tree/nvim-web-devicons,https://github.com/nvim-telescope/telescope.nvim",
+        "https://github.com/neovim/nvim-lspconfig,https://github.com/mason-org/mason.nvim,https://github.com/mason-org/mason-lspconfig.nvim,https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim,https://github.com/dgagn/diagflow.nvim"
+      ],
+      "default": ""
+    }
+  },
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
   ]

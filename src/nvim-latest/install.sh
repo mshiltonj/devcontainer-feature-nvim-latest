@@ -1,29 +1,32 @@
 #!/usr/bin/env bash
-
 set -e
+
+COMMON_PACKAGES="wget git man-db"
 
 # ubuntu, debian, etc
 if command -v apt-get >/dev/null 2>&1 ; then
   apt-get update -y
-  apt-get install -y wget
+  apt-get install -y $COMMON_PACKAGES
 fi
 
 # rhel, fedora, etc
 if command -v dnf >/dev/null 2>&1 ; then #  dnf check-update
 #  dnf -y update --setopt=tsflags=nodocs --nogpgcheck
-  dnf install wget -y --setopt=tsflags=nodocs --nogpgcheck
+  dnf install $COMMON_PACKAGES -y --setopt=tsflags=nodocs --nogpgcheck
 fi
 
 # arch btw
 if command -v pacman >/dev/null 2>&1 ; then
-  pacman -Syu --noconfirm wget
+  pacman -Syu --noconfirm $COMMON_PACKAGES
 fi
 
 PLATFORM_ARCH=$(uname -m)
 
 if [[ "$PLATFORM_ARCH" == "x86_64" ]]; then
-  PLATFORM="arm64"
+  #echo "Intalling nvim for x86_64"
+  PLATFORM="x86_64"
 elif [[ "$PLATFORM_ARCH" == "aarch64" ]]; then
+  #echo "Intalling nvim for arm64"
   PLATFORM="arm64"
 else
   echo "Unsupported platform: $PLATFORM_ARCH"
@@ -45,5 +48,12 @@ wget -q -P /tmp https://github.com/neovim/neovim/releases/download/nightly/${DL_
 tar -C /opt -zxvf /tmp/${DL_FILE}
 rm /tmp/${DL_FILE}
 mv /opt/nvim-linux-${PLATFORM} /opt/nvim
+
 echo 'export PATH="/opt/nvim/bin:$PATH"' >> /etc/profile
+if [[ "${_CONTAINER_USER}" != "" ]]; then
+  echo 'export PATH="/opt/nvim/bin:$PATH"' >> "${_CONTAINER_USER_HOME}/.bashrc"
+  SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+  ls -latr
+  source "${SCRIPT_DIR}/install-plugins.sh"
+fi
 
